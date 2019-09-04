@@ -1,5 +1,6 @@
 package com.andromeda.healthcare;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -12,8 +13,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -59,9 +65,25 @@ public class ProfileActivity extends AppCompatActivity {
                     tinyDB.putString("email", email);
                     tinyDB.putString("blood_group", blood_group);
                     tinyDB.putString("age", age);
+                    tinyDB.putString("gender", gender);
 
                     database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference();
+
+//                    myRef.orderByChild("blood_group").equalTo("B+").addListenerForSingleValueEvent(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+//                                String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
+//                                submitButton.setText(name);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
 
                     if(isValidEmail(email)) {
                         String path = email.substring(0, email.indexOf('@'));
@@ -93,19 +115,23 @@ public class ProfileActivity extends AppCompatActivity {
 
             gender = tinyDB.getString("gender");
 
-            if(gender.equals("Male")) {
+            if(gender.matches("Male")) {
                 radioButton = findViewById(R.id.male_button);
                 radioButton.setChecked(true);
+                radioButton = findViewById(R.id.female_button);
+                radioButton.setChecked(false);
             } else {
                 radioButton = findViewById(R.id.female_button);
                 radioButton.setChecked(true);
+                radioButton = findViewById(R.id.male_button);
+                radioButton.setChecked(false);
             }
         } finally {
 
         }
     }
 
-    public static boolean isValidEmail(CharSequence target) {
+    private static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }

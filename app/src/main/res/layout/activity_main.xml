@@ -8,6 +8,13 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/profile_button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Profile"
+        android:textSize="20sp" />
+
+    <Button
         android:id="@+id/assistant_button"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -15,10 +22,31 @@
         android:textSize="20sp" />
 
     <Button
-        android:id="@+id/profile_button"
+        android:id="@+id/emergency_button"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Profile"
+        android:text="Emergency"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/blood_bank_button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Blood Bank"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/prescription_button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Digital Prescription"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/my_prescription_button"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="My Prescription"
         android:textSize="20sp" />
 
 </LinearLayout>

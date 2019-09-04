@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EmergencyActivity"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Emergency Contact"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/contacts_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Contacts Added"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/contact_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="phone"/>
+
+    <Button
+        android:id="@+id/add_contact_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Contact"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/current_location_map"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send sms"
+        />
+
+    <Button
+        android:id="@+id/call_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="call emergency number"
+        />
+
+</LinearLayout>
