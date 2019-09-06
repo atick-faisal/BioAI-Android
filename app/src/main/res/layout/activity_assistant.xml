@@ -3,34 +3,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".AssistantActivity">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:textColor="@color/colorPrimary"
+        android:text="Assistant"
+        android:textSize="28sp"
+        android:fontFamily="sans-serif-light"
+        android:layout_margin="16dp"/>
 
-        <TextView
-            android:id="@+id/input_text"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            android:textSize="20sp"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/diagnosis_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            />
+            <TextView
+                android:id="@+id/input_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:background="@drawable/indigo_card"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="gone"
+                android:fontFamily="sans-serif-light"
+                android:textSize="20sp"/>
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/diagnosis_text"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                />
 
-    <Button
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
         android:id="@+id/speak_button"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:text="Speak"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:elevation="4dp"
+        android:background="@drawable/ash_circle"
+        android:src="@drawable/recorder"
+        android:layout_marginBottom="24dp"
+        android:padding="16dp"
+        android:foreground="?selectableItemBackground"
         android:layout_gravity="bottom|center_horizontal"/>
 
 </FrameLayout>

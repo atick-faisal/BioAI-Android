@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -33,7 +34,7 @@ public class EmergencyActivity extends AppCompatActivity implements OnMapReadyCa
 
     EditText contactField;
     Button addContact, sendButton, callButton;
-    TextView contactList;
+    TextView contactList, locationText;
 
     TinyDB tinyDB;
     FusedLocationProviderClient mFusedLocationClient;
@@ -51,11 +52,21 @@ public class EmergencyActivity extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
 
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         contactField = findViewById(R.id.contact_field);
         addContact = findViewById(R.id.add_contact_button);
         contactList = findViewById(R.id.contacts_list);
         sendButton = findViewById(R.id.send_button);
         callButton = findViewById(R.id.call_button);
+        locationText = findViewById(R.id.location_text);
 
         mapView = findViewById(R.id.current_location_map);
         mapView.onCreate(savedInstanceState);
@@ -121,6 +132,7 @@ public class EmergencyActivity extends AppCompatActivity implements OnMapReadyCa
                                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(current_location));
                             }
                             geocode = l.getLatitude() + "," + l.getLongitude();
+                            locationText.setText(geocode);
                         } else {
                             Toast.makeText(getApplicationContext(), "Current location unavailable", Toast.LENGTH_SHORT).show();
                         }
@@ -167,6 +179,7 @@ public class EmergencyActivity extends AppCompatActivity implements OnMapReadyCa
         googleMap = gmap;
         googleMap.setMinZoomPreference(15);
         googleMap.setBuildingsEnabled(true);
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         UiSettings uiSettings = googleMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
         uiSettings.setZoomControlsEnabled(true);
@@ -182,11 +195,11 @@ public class EmergencyActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void __init__()  {
         tinyDB = new TinyDB(getApplicationContext());
-        try {
-            number = tinyDB.getString("number");
+        number = tinyDB.getString("number");
+        if(!number.matches("")) {
             contactList.setText(number.substring(3));
-        } finally {
-
+        } else {
+            contactList.setText("No Contacts Added");
         }
     }
 

@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrescriptionActivity"
-    android:padding="16dp">
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    tools:context=".PrescriptionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,24 +15,45 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Your Medicines"
-            android:textSize="24sp"/>
+            android:fontFamily="sans-serif-light"
+            android:text="My Medicines"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp" />
+
+        <Switch
+            android:id="@+id/reminder_switch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_margin="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="Medicine Reminder"
+            android:textColor="#424242"
+            android:textSize="20sp" />
 
         <TextView
+            android:background="@drawable/indigo_card"
+            android:elevation="1dp"
+            android:padding="16dp"
+            android:textColor="#EEEEEE"
             android:id="@+id/medicine_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"/>
+            android:layout_margin="16dp"
+            android:fontFamily="sans-serif-light"
+            android:text="No Medicine Found"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/add_prescription_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Prescription"
-        android:layout_gravity="bottom"
-        android:textSize="20sp"/>
+    <!--    <Button-->
+    <!--        android:id="@+id/add_prescription_button"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Add Prescription"-->
+    <!--        android:layout_gravity="bottom"-->
+    <!--        android:textSize="20sp"/>-->
 
 
 </FrameLayout>

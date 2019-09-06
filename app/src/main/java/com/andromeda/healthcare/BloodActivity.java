@@ -1,8 +1,10 @@
 package com.andromeda.healthcare;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,9 +38,18 @@ public class BloodActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blood);
 
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         searchField = findViewById(R.id.search_field);
         searchButton = findViewById(R.id.search_button);
-        searchResult = findViewById(R.id.search_result);
+        //searchResult = findViewById(R.id.search_result);
         resultList = findViewById(R.id.result_list);
 
         searchButton.setOnClickListener(new View.OnClickListener() {

@@ -1,8 +1,10 @@
 package com.andromeda.healthcare;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -31,6 +33,15 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_prescription);
 
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         emailField = findViewById(R.id.patient_email_field);
         medicineField = findViewById(R.id.medicine_name_field);
         commentField = findViewById(R.id.comment_field);
@@ -42,24 +53,48 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
         morningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (morning == 0) morning = 1;
-                else morning = 0;
+                if (morning == 0) {
+                    morning = 1;
+                    morningButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
+                    morningButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                }
+                else {
+                    morning = 0;
+                    morningButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
+                    morningButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
                 morningButton.setText(String.format(Locale.US, "%d", morning));
             }
         });
         noonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (noon == 0) noon = 1;
-                else noon = 0;
+                if (noon == 0) {
+                    noon = 1;
+                    noonButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
+                    noonButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                }
+                else {
+                    noon = 0;
+                    noonButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
+                    noonButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
                 noonButton.setText(String.format(Locale.US, "%d", noon));
             }
         });
         nightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (night == 0) night = 1;
-                else night = 0;
+                if (night == 0) {
+                    night = 1;
+                    nightButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
+                    nightButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
+                }
+                else {
+                    night = 0;
+                    nightButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
+                    nightButton.setTextColor(getResources().getColor(R.color.colorPrimary));
+                }
                 nightButton.setText(String.format(Locale.US, "%d", night));
             }
         });

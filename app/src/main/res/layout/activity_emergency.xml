@@ -1,54 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmergencyActivity"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="#FFFFFF"
+    android:padding="16dp"
+    tools:context=".EmergencyActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Emergency Contact"
-        android:textSize="24sp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/contacts_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="No Contacts Added"
-        android:textSize="16sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:text="Emergency Contact"
+            android:textColor="@color/colorPrimary"
+            android:textSize="28sp" />
 
-    <EditText
-        android:id="@+id/contact_field"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="phone"/>
+        <TextView
+            android:id="@+id/contacts_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="No Contacts Added"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/add_contact_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add Contact"/>
+        <EditText
+            android:id="@+id/contact_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:hint="Add Contact Number"
+            android:inputType="phone" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/current_location_map"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        <Button
+            android:id="@+id/add_contact_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/indigo_card"
+            android:fontFamily="sans-serif-light"
+            android:foreground="?selectableItemBackground"
+            android:text="Set Emergency Contact"
+            android:textColor="#fff" />
 
-    <Button
-        android:id="@+id/send_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send sms"
-        />
+        <LinearLayout
+            android:id="@+id/profile_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:background="@drawable/card"
+            android:clickable="true"
+            android:elevation="1dp"
+            android:focusable="true"
+            android:foreground="?selectableItemBackground"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/call_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="call emergency number"
-        />
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/current_location_map"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_margin="8dp" />
 
-</LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Your Current Location"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/location_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Location not available"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/indigo_card"
+            android:fontFamily="sans-serif-light "
+            android:foreground="?selectableItemBackground"
+            android:text="Send sms"
+            android:textColor="#fff" />
+
+        <Button
+            android:id="@+id/call_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/red_card"
+            android:fontFamily="sans-serif-light"
+            android:foreground="?selectableItemBackground"
+            android:text="call emergency number"
+            android:textColor="#FFFFFF" />
+
+
+    </LinearLayout>
+
+</ScrollView>

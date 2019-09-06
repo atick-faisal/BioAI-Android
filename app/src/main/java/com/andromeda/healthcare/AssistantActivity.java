@@ -4,13 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
@@ -44,9 +47,18 @@ public class AssistantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_assistant);
 
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+
         diagnosisText = findViewById(R.id.diagnosis_text);
         inputText = findViewById(R.id.input_text);
-        Button speakButton = findViewById(R.id.speak_button);
+        ImageView speakButton = findViewById(R.id.speak_button);
 
         tinyDB = new TinyDB(getApplicationContext());
 
@@ -125,8 +137,10 @@ public class AssistantActivity extends AppCompatActivity {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 if (result != null) {
                     text = result.get(0);
+                    inputText.setVisibility(View.VISIBLE);
+                    inputText.setText(text);
                 }
-                inputText.setText(text);
+
                 for (int i = 0; i < 200; i++) {
                     if (text.contains(Database.SYMPTOM_NAME[i].toLowerCase())) {
                         symptomIDs.append(Database.SYMPTOM_ID[i]).append(",");
