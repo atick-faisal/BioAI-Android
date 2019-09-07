@@ -16,6 +16,7 @@
         android:layout_margin="16dp"/>
 
     <ScrollView
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp">
@@ -24,6 +25,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/broker_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:textSize="20sp"/>
+
+            <Button
+                android:id="@+id/conncet_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Connect to Server"
+                android:background="@drawable/red_card"
+                android:textColor="#FFFFFF"
+                android:foreground="?selectableItemBackground"/>
 
             <TextView
                 android:id="@+id/input_text"
@@ -39,8 +56,12 @@
             <TextView
                 android:id="@+id/diagnosis_text"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ash_card"
+                android:visibility="gone"
+                android:fontFamily="sans-serif-light"
                 android:textSize="20sp"
                 />
 

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.eclipse.paho.android.service.MqttAndroidClient;
+import org.eclipse.paho.client.mqttv3.IMqttActionListener;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.IMqttToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -25,15 +34,28 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Locale;
 
 public class AssistantActivity extends AppCompatActivity {
 
+    MqttAndroidClient client;
+
+    String serverIP = "";
+    String serverURL = "tcp://broker.hivemq.com:1883";
+    String topic = "questions";
+    String sTopic = "diagnosis";
+
+    boolean connectionFlag = false;
+
     private TextView diagnosisText, inputText;
+    EditText brokerIPField;
+    Button connectButton;
 
     public FirebaseDatabase database = FirebaseDatabase.getInstance();
     public TinyDB tinyDB;
@@ -59,8 +81,25 @@ public class AssistantActivity extends AppCompatActivity {
         diagnosisText = findViewById(R.id.diagnosis_text);
         inputText = findViewById(R.id.input_text);
         ImageView speakButton = findViewById(R.id.speak_button);
-
+        brokerIPField = findViewById(R.id.broker_id);
+        connectButton = findViewById(R.id.conncet_button);
         tinyDB = new TinyDB(getApplicationContext());
+        if(!tinyDB.getString("serverIP").matches("")) {
+            serverIP = tinyDB.getString("serverIP");
+            brokerIPField.setText(serverIP);
+        }
+
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(brokerIPField.getText() != null) {
+                    serverIP = brokerIPField.getText().toString();
+                    tinyDB.putString("serverIP", serverIP);
+                    serverURL = "tcp://" + brokerIPField.getText().toString() + ":1883";
+                    connectToBroker();
+                }
+            }
+        });
 
         speakButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,6 +107,8 @@ public class AssistantActivity extends AppCompatActivity {
                 getAudioInput();
             }
         });
+
+        //connectToBroker();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -139,6 +180,7 @@ public class AssistantActivity extends AppCompatActivity {
                     text = result.get(0);
                     inputText.setVisibility(View.VISIBLE);
                     inputText.setText(text);
+                    sendMessage(topic, text);
                 }
 
                 for (int i = 0; i < 200; i++) {
@@ -147,9 +189,103 @@ public class AssistantActivity extends AppCompatActivity {
                     }
                 }
                 Toast.makeText(getApplicationContext(), "Loading Diagnosis", Toast.LENGTH_SHORT).show();
-                FetchDiagnosis fetchDiagnosis = new FetchDiagnosis();
-                fetchDiagnosis.execute();
+                //FetchDiagnosis fetchDiagnosis = new FetchDiagnosis();
+                //fetchDiagnosis.execute();
             }
+        }
+    }
+
+    void connectToBroker() {
+        String clientId = MqttClient.generateClientId();
+        client = new MqttAndroidClient(this.getApplicationContext(), serverURL, clientId);
+
+        try {
+            IMqttToken token = client.connect();
+            token.setActionCallback(new IMqttActionListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onSuccess(IMqttToken asyncActionToken) {
+                    brokerIPField.setVisibility(View.GONE);
+                    connectButton.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
+                    connectionFlag = true;
+                    subscribeToTopic(sTopic);
+                }
+
+                @Override
+                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                    Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    void sendMessage(String topic, String msg) {
+        byte[] encodedPayload;
+        try {
+            encodedPayload = msg.getBytes(StandardCharsets.UTF_8);
+            MqttMessage message = new MqttMessage(encodedPayload);
+            client.publish(topic, message);
+            Toast.makeText(getApplicationContext(), "Sent", Toast.LENGTH_SHORT).show();
+        } catch (MqttException e) {
+            e.printStackTrace();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    public void subscribeToTopic(String topic) {
+        try {
+            if (client.isConnected()) {
+                client.subscribe(topic, 0);
+                Toast.makeText(getApplicationContext(), "Subscribed", Toast.LENGTH_SHORT).show();
+                client.setCallback(new MqttCallback() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void connectionLost(Throwable cause) {
+                        Toast.makeText(getApplicationContext(), "Connection Lost", Toast.LENGTH_SHORT).show();
+                        connectionFlag = false;
+                    }
+
+                    @Override
+                    public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        diagnosisText.setVisibility(View.VISIBLE);
+                        diagnosisText.setText(message.toString());
+                    }
+
+                    @Override
+                    public void deliveryComplete(IMqttDeliveryToken token) {
+                    }
+                });
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (connectionFlag) {
+            try {
+                IMqttToken disconnectToken = client.disconnect();
+                disconnectToken.setActionCallback(new IMqttActionListener() {
+                    @Override
+                    public void onSuccess(IMqttToken asyncActionToken) {
+                        Toast.makeText(getApplicationContext(), "Disconnected", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
+                        finish();
+                    }
+                });
+            } catch (MqttException e) {
+                e.printStackTrace();
+            }
+            connectionFlag = false;
         }
     }
 

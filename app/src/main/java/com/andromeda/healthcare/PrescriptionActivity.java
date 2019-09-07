@@ -120,17 +120,27 @@ public class PrescriptionActivity extends AppCompatActivity {
                 tinyDB.putBoolean("reminder_key", b);
                 if(compoundButton.isChecked()) {
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                    for(int i = 0; i < 3; i++) {
-                        if(dayTime[i] == 1) {
-                            setCalendarTime(i);
-                            Intent intent = new Intent(PrescriptionActivity.this, medicine_notifier.class);
-                            PendingIntent pendingIntent = PendingIntent.getBroadcast(PrescriptionActivity.this, 1, intent, 0);
-                            if (alarmManager != null) {
-                                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                                        AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
-                            }
-                        }
+                    calendar.set(Calendar.MINUTE, Calendar.MINUTE + 2);
+                    calendar.set(Calendar.HOUR_OF_DAY, Calendar.HOUR_OF_DAY);
+                    Intent intent = new Intent(PrescriptionActivity.this, medicine_notifier.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(PrescriptionActivity.this, 1, intent, 0);
+                    if (alarmManager != null) {
+                        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                                60000, pendingIntent);
                     }
+//                    for(int i = 0; i < 3; i++) {
+//                        if(dayTime[i] == 1) {
+//                            setCalendarTime(i);
+//                            calendar.set(Calendar.MINUTE, 33);
+//                            calendar.set(Calendar.HOUR_OF_DAY, 9);
+//                            Intent intent = new Intent(PrescriptionActivity.this, medicine_notifier.class);
+//                            PendingIntent pendingIntent = PendingIntent.getBroadcast(PrescriptionActivity.this, 1, intent, 0);
+//                            if (alarmManager != null) {
+//                                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+//                                        60000, pendingIntent);
+//                            }
+//                        }
+//                    }
                 } else {
                     AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
                     Intent intent = new Intent(PrescriptionActivity.this, medicine_notifier.class);
@@ -155,7 +165,8 @@ public class PrescriptionActivity extends AppCompatActivity {
         calendar.setTimeInMillis(System.currentTimeMillis());
         switch (timeOfDay) {
             case 0:
-                calendar.set(Calendar.HOUR_OF_DAY, 8);
+                calendar.set(Calendar.MINUTE, 31);
+                calendar.set(Calendar.HOUR_OF_DAY, 9);
                 break;
             case 1:
                 calendar.set(Calendar.HOUR_OF_DAY, 13);

@@ -16,7 +16,7 @@ public class medicine_notifier extends BroadcastReceiver {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Medicine Reminder")
                 .setContentText("Take a Paracetamol")
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(1, builder.build());
