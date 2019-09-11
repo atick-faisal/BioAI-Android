@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.andromeda.healthcare">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
@@ -22,8 +22,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name="org.eclipse.paho.android.service.MqttService"/>
-        <activity android:name=".DigitalPrescriptionActivity"></activity>
+        <activity android:name=".RequesterActivity"></activity>
+
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
+
+        <activity android:name=".DigitalPrescriptionActivity" />
         <activity android:name=".PrescriptionActivity" />
         <activity android:name=".BloodActivity" />
 
@@ -45,8 +48,10 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".medicine_notifier" android:enabled="true" android:exported="true"/>
-
+        <receiver
+            android:name=".medicine_notifier"
+            android:enabled="true"
+            android:exported="true" />
     </application>
 
 </manifest>

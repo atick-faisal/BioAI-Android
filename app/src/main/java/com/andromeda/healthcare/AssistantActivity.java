@@ -7,7 +7,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,8 +56,8 @@ public class AssistantActivity extends AppCompatActivity {
     boolean connectionFlag = false;
 
     private TextView diagnosisText, inputText;
-    EditText brokerIPField;
-    Button connectButton;
+    EditText brokerIPField, questionField;
+    Button connectButton, searchButton;
 
     public FirebaseDatabase database = FirebaseDatabase.getInstance();
     public TinyDB tinyDB;
@@ -83,6 +85,21 @@ public class AssistantActivity extends AppCompatActivity {
         ImageView speakButton = findViewById(R.id.speak_button);
         brokerIPField = findViewById(R.id.broker_id);
         connectButton = findViewById(R.id.conncet_button);
+        questionField = findViewById(R.id.question_text_field);
+        searchButton = findViewById(R.id.diagnosis_search_button);
+
+
+
+//        LayoutInflater inflater = getLayoutInflater();
+//        View layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) findViewById(R.id.root_layout));
+//        Toast toast = new Toast(getApplicationContext());
+//        toast.setDuration(Toast.LENGTH_LONG);
+//        toast.setView(layout);
+//        toast.show();
+
+        Toast.makeText(getApplicationContext(), "The recommendations of an open source AI is not a substitute for professional medical care", Toast.LENGTH_LONG).show();
+
+
         tinyDB = new TinyDB(getApplicationContext());
         if(!tinyDB.getString("serverIP").matches("")) {
             serverIP = tinyDB.getString("serverIP");
@@ -97,6 +114,18 @@ public class AssistantActivity extends AppCompatActivity {
                     tinyDB.putString("serverIP", serverIP);
                     serverURL = "tcp://" + brokerIPField.getText().toString() + ":1883";
                     connectToBroker();
+                }
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(questionField.getText() != null) {
+                    text = questionField.getText().toString();
+                    inputText.setVisibility(View.VISIBLE);
+                    inputText.setText(text);
+                    sendMessage(topic, text);
                 }
             }
         });
@@ -207,6 +236,8 @@ public class AssistantActivity extends AppCompatActivity {
                 public void onSuccess(IMqttToken asyncActionToken) {
                     brokerIPField.setVisibility(View.GONE);
                     connectButton.setVisibility(View.GONE);
+                    questionField.setVisibility(View.VISIBLE);
+                    searchButton.setVisibility(View.VISIBLE);
                     Toast.makeText(getApplicationContext(), "Connected", Toast.LENGTH_SHORT).show();
                     connectionFlag = true;
                     subscribeToTopic(sTopic);

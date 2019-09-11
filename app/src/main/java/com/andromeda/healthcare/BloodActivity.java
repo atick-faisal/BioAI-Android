@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,8 +32,10 @@ public class BloodActivity extends AppCompatActivity {
     ListView resultList;
 
     String[] resultArray;
+    String name, email, path, location, contact;
 
     FirebaseDatabase database;
+    TinyDB tinyDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +56,20 @@ public class BloodActivity extends AppCompatActivity {
         //searchResult = findViewById(R.id.search_result);
         resultList = findViewById(R.id.result_list);
 
+        tinyDB = new TinyDB(getApplicationContext());
+        name = tinyDB.getString("name");
+        email = tinyDB.getString("email");
+        location = tinyDB.getString("location");
+        contact = tinyDB.getString("phone");
+        if(isValidEmail(email)) {
+            path = email.substring(0, email.indexOf('@'));
+        }
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String blood_group = searchField.getText().toString();
+                Toast.makeText(getApplicationContext(), "Your request is pending", Toast.LENGTH_LONG).show();
+                final String blood_group = searchField.getText().toString();
                 if(blood_group.matches("")) {
                     Toast.makeText(getApplicationContext(), "Field empty", Toast.LENGTH_SHORT).show();
                 } else {
@@ -68,13 +82,22 @@ public class BloodActivity extends AppCompatActivity {
                             int i = 0;
                             resultArray = new String[(int) dataSnapshot.getChildrenCount()];
                             for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                                resultArray[i++] = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
+                                DatabaseReference reference = snapshot.getRef();
+                                if(!Objects.requireNonNull(reference.getKey()).matches(path)) {
+                                    reference.child("request").child("status").setValue("pending");
+                                    reference.child("request").child("blood_group").setValue(blood_group);
+                                    reference.child("request").child("name").setValue(name);
+                                    reference.child("request").child("location").setValue(location);
+                                    reference.child("request").child("contact").setValue(contact);
+                                }
+
+                                //resultArray[i++] = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
                             }
-                            final ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, resultArray);
-                            resultList.setAdapter(adapter);
-                            if(i == 0) {
-                                Toast.makeText(getApplicationContext(), "No result found", Toast.LENGTH_SHORT).show();
-                            }
+//                            final ArrayAdapter<String> adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, android.R.id.text1, resultArray);
+//                            resultList.setAdapter(adapter);
+//                            if(i == 0) {
+//                                Toast.makeText(getApplicationContext(), "No result found", Toast.LENGTH_SHORT).show();
+//                            }
                         }
 
                         @Override
@@ -85,5 +108,9 @@ public class BloodActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }

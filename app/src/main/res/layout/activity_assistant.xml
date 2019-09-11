@@ -18,6 +18,7 @@
     <ScrollView
         android:layout_marginTop="60dp"
         android:layout_width="match_parent"
+        android:id="@+id/root_layout"
         android:layout_height="match_parent"
         android:padding="16dp">
 
@@ -42,11 +43,31 @@
                 android:textColor="#FFFFFF"
                 android:foreground="?selectableItemBackground"/>
 
+            <EditText
+                android:id="@+id/question_text_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:inputType="text"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-light"/>
+
+            <Button
+                android:id="@+id/diagnosis_search_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Search"
+                android:background="@drawable/red_card"
+                android:textColor="#FFFFFF"
+                android:visibility="gone"
+                android:foreground="?selectableItemBackground"/>
+
             <TextView
                 android:id="@+id/input_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/indigo_card"
                 android:textColor="@color/colorPrimaryDark"
                 android:visibility="gone"

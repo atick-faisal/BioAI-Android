@@ -81,6 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
                 int selectedID = genderSelector.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedID);
                 gender = radioButton.getText().toString();
@@ -101,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
                     tinyDB.putString("age", age);
                     tinyDB.putString("gender", gender);
                     tinyDB.putString("phone", phone);
+                    tinyDB.putString("location", geocode);
 
                     database = FirebaseDatabase.getInstance();
                     DatabaseReference myRef = database.getReference();
