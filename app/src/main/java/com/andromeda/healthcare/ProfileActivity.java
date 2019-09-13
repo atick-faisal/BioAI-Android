@@ -43,16 +43,15 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.hide();
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         nameField = findViewById(R.id.name_field);
         emailField = findViewById(R.id.email_field);
         bloodField = findViewById(R.id.blood_field);
@@ -60,11 +59,12 @@ public class ProfileActivity extends AppCompatActivity {
         genderSelector = findViewById(R.id.gender_selector);
         phoneField = findViewById(R.id.phone_number_field);
         submitButton = findViewById(R.id.submit_button);
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+        ////////////////////////////////////////////////////////////////////////////////////////////
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @SuppressLint("SetTextI18n")
@@ -77,52 +77,37 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Saved...", Toast.LENGTH_LONG).show();
                 int selectedID = genderSelector.getCheckedRadioButtonId();
                 radioButton = findViewById(selectedID);
                 gender = radioButton.getText().toString();
-
+                ////////////////////////////////////////////////////////////////////////////////////
                 tinyDB = new TinyDB(getApplicationContext());
                 name = nameField.getText().toString();
                 email = emailField.getText().toString();
                 blood_group = bloodField.getText().toString();
                 age = ageField.getText().toString();
                 phone = phoneField.getText().toString();
-
-                if(name.matches("") || email.matches("") || blood_group.matches("") || age.matches("") || phone.matches("")) {
+                ////////////////////////////////////////////////////////////////////////////////////
+                if (name.matches("") || email.matches("") || blood_group.matches("") || age.matches("") || phone.matches("")) {
                     Toast.makeText(getApplicationContext(), "Empty Field", Toast.LENGTH_SHORT).show();
                 } else {
-                    tinyDB.putString("name", name);
-                    tinyDB.putString("email", email);
-                    tinyDB.putString("blood_group", blood_group);
-                    tinyDB.putString("age", age);
-                    tinyDB.putString("gender", gender);
-                    tinyDB.putString("phone", phone);
-                    tinyDB.putString("location", geocode);
-
-                    database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference();
-
-//                    myRef.orderByChild("blood_group").equalTo("B+").addListenerForSingleValueEvent(new ValueEventListener() {
-//                        @Override
-//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-//                                String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
-//                                submitButton.setText(name);
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                        }
-//                    });
-
-                    if(isValidEmail(email)) {
+                    if (isValidEmail(email)) {
+                        tinyDB.putString("name", name);
+                        tinyDB.putString("email", email);
+                        tinyDB.putString("blood_group", blood_group);
+                        tinyDB.putString("age", age);
+                        tinyDB.putString("gender", gender);
+                        tinyDB.putString("phone", phone);
+                        tinyDB.putString("location", geocode);
+                        ////////////////////////////////////////////////////////////////////////////////
+                        database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference();
+                        ////////////////////////////////////////////////////////////////////////////////
                         String path = email.substring(0, email.indexOf('@'));
                         myRef.child(path).child("name").setValue(name);
                         myRef.child(path).child("blood_group").setValue(blood_group);
@@ -136,42 +121,39 @@ public class ProfileActivity extends AppCompatActivity {
                 }
             }
         });
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         __init__();
     }
 
-    private void __init__()  {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    private void __init__() {
         tinyDB = new TinyDB(getApplicationContext());
-        try {
-            name = tinyDB.getString("name");
-            nameField.setText(name);
-            email = tinyDB.getString("email");
-            emailField.setText(email);
-            blood_group = tinyDB.getString("blood_group");
-            bloodField.setText(blood_group);
-            age = tinyDB.getString("age");
-            ageField.setText(age);
-            phone = tinyDB.getString("phone");
-            phoneField.setText(phone);
-
-            gender = tinyDB.getString("gender");
-
-            if(gender.matches("Male")) {
-                radioButton = findViewById(R.id.male_button);
-                radioButton.setChecked(true);
-                radioButton = findViewById(R.id.female_button);
-                radioButton.setChecked(false);
-            } else {
-                radioButton = findViewById(R.id.female_button);
-                radioButton.setChecked(true);
-                radioButton = findViewById(R.id.male_button);
-                radioButton.setChecked(false);
-            }
-        } finally {
-
+        name = tinyDB.getString("name");
+        nameField.setText(name);
+        email = tinyDB.getString("email");
+        emailField.setText(email);
+        blood_group = tinyDB.getString("blood_group");
+        bloodField.setText(blood_group);
+        age = tinyDB.getString("age");
+        ageField.setText(age);
+        phone = tinyDB.getString("phone");
+        phoneField.setText(phone);
+        gender = tinyDB.getString("gender");
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        if (gender.matches("Male")) {
+            radioButton = findViewById(R.id.male_button);
+            radioButton.setChecked(true);
+            radioButton = findViewById(R.id.female_button);
+            radioButton.setChecked(false);
+        } else {
+            radioButton = findViewById(R.id.female_button);
+            radioButton.setChecked(true);
+            radioButton = findViewById(R.id.male_button);
+            radioButton.setChecked(false);
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     private static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }

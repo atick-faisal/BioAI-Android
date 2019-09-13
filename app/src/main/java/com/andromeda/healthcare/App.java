@@ -11,7 +11,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         createNotificationChannel();
     }
 
@@ -20,7 +19,9 @@ public class App extends Application {
             NotificationChannel notificationChannel = new NotificationChannel(
                     CHANNEL_ID,
                     "Medicine Reminder",
+                    ////////////////////////////////////////////////////////////////////////////////
                     NotificationManager.IMPORTANCE_HIGH
+                    ////////////////////////////////////////////////////////////////////////////////
             );
             notificationChannel.setDescription("Sends Medicine Reminder Everyday");
             NotificationManager manager = getSystemService(NotificationManager.class);

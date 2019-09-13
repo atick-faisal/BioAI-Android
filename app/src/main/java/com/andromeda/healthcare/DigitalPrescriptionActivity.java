@@ -1,9 +1,5 @@
 package com.andromeda.healthcare;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,16 +32,15 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_digital_prescription);
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         ActionBar actionBar = getSupportActionBar();
-        if(actionBar != null) {
+        if (actionBar != null) {
             actionBar.hide();
         }
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         emailField = findViewById(R.id.patient_email_field);
         medicineField = findViewById(R.id.medicine_name_field);
         commentField = findViewById(R.id.comment_field);
@@ -49,7 +48,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
         noonButton = findViewById(R.id.noon_button);
         nightButton = findViewById(R.id.night_button);
         doneButton = findViewById(R.id.done_button);
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         morningButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,8 +56,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                     morning = 1;
                     morningButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
                     morningButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                }
-                else {
+                } else {
                     morning = 0;
                     morningButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
                     morningButton.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -66,6 +64,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                 morningButton.setText(String.format(Locale.US, "%d", morning));
             }
         });
+        ////////////////////////////////////////////////////////////////////////////////////////////
         noonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,8 +72,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                     noon = 1;
                     noonButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
                     noonButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                }
-                else {
+                } else {
                     noon = 0;
                     noonButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
                     noonButton.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -82,6 +80,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                 noonButton.setText(String.format(Locale.US, "%d", noon));
             }
         });
+        ////////////////////////////////////////////////////////////////////////////////////////////
         nightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,8 +88,7 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                     night = 1;
                     nightButton.setBackground(getResources().getDrawable(R.drawable.indigo_circle));
                     nightButton.setTextColor(getResources().getColor(R.color.colorPrimaryDark));
-                }
-                else {
+                } else {
                     night = 0;
                     nightButton.setBackground(getResources().getDrawable(R.drawable.ash_circle));
                     nightButton.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -98,12 +96,12 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                 nightButton.setText(String.format(Locale.US, "%d", night));
             }
         });
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String email = emailField.getText().toString();
-                if(isValidEmail(email)) {
+                if (isValidEmail(email)) {
                     String comment = commentField.getText().toString();
                     String medicine = medicineField.getText().toString();
                     String path = email.substring(0, email.indexOf('@'));
@@ -113,11 +111,11 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
                     myRef.child(path).child("prescription").child("comment").setValue(comment);
                     myRef.child(path).child("prescription").child("rule").setValue(String.format(Locale.US, "%d-%d-%d", morning, noon, night), new DatabaseReference.CompletionListener() {
                         @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        public void onComplete(DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                             if (databaseError != null) {
-                                Toast.makeText(getApplicationContext(), "Failed to connect to database", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Failed to connect to database...", Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(getApplicationContext(), "Sent to patient", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "Sent to patient...", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
@@ -128,7 +126,9 @@ public class DigitalPrescriptionActivity extends AppCompatActivity {
         });
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     public static boolean isValidEmail(CharSequence target) {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 }

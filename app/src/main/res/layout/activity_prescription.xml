@@ -47,13 +47,5 @@
 
     </LinearLayout>
 
-    <!--    <Button-->
-    <!--        android:id="@+id/add_prescription_button"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Add Prescription"-->
-    <!--        android:layout_gravity="bottom"-->
-    <!--        android:textSize="20sp"/>-->
-
 
 </FrameLayout>

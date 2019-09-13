@@ -9,17 +9,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:text="Assistant"
-        android:textSize="28sp"
+        android:layout_margin="16dp"
         android:fontFamily="sans-serif-light"
-        android:layout_margin="16dp"/>
+        android:text="Assistant"
+        android:textColor="@color/colorPrimary"
+        android:textSize="28sp" />
 
     <ScrollView
-        android:layout_marginTop="60dp"
-        android:layout_width="match_parent"
         android:id="@+id/root_layout"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         android:padding="16dp">
 
         <LinearLayout
@@ -32,59 +32,59 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                android:textSize="20sp"/>
+                android:textSize="20sp" />
 
             <Button
                 android:id="@+id/conncet_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Connect to Server"
                 android:background="@drawable/red_card"
-                android:textColor="#FFFFFF"
-                android:foreground="?selectableItemBackground"/>
+                android:foreground="?selectableItemBackground"
+                android:text="Connect to Server"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/question_text_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+                android:hint="Describe your situation..."
+                android:fontFamily="sans-serif-light"
                 android:inputType="text"
                 android:textSize="20sp"
-                android:fontFamily="sans-serif-light"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/diagnosis_search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Search"
                 android:background="@drawable/red_card"
+                android:foreground="?selectableItemBackground"
+                android:text="Search"
                 android:textColor="#FFFFFF"
-                android:visibility="gone"
-                android:foreground="?selectableItemBackground"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/input_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/indigo_card"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone"
                 android:fontFamily="sans-serif-light"
-                android:textSize="20sp"/>
+                android:padding="16dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/diagnosis_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/ash_card"
-                android:visibility="gone"
                 android:fontFamily="sans-serif-light"
+                android:padding="16dp"
                 android:textSize="20sp"
-                />
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -94,12 +94,12 @@
         android:id="@+id/speak_button"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:elevation="4dp"
-        android:background="@drawable/ash_circle"
-        android:src="@drawable/recorder"
+        android:layout_gravity="bottom|center_horizontal"
         android:layout_marginBottom="24dp"
-        android:padding="16dp"
+        android:background="@drawable/ash_circle"
+        android:elevation="4dp"
         android:foreground="?selectableItemBackground"
-        android:layout_gravity="bottom|center_horizontal"/>
+        android:padding="16dp"
+        android:src="@drawable/recorder" />
 
 </FrameLayout>
