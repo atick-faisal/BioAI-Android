@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="#FFFFFF"
+    android:padding="16dp"
     tools:context=".BloodActivity">
 
     <LinearLayout
@@ -15,17 +15,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
             android:text="Search Blood Group"
             android:textColor="@color/colorPrimary"
-            android:textSize="28sp"
-            android:fontFamily="sans-serif-light"/>
+            android:textSize="28sp" />
 
         <EditText
             android:id="@+id/search_field"
-            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:hint="Blood Group eg. A+"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:hint="Blood Group eg. A+"
             android:textSize="20sp" />
 
         <Button
@@ -33,23 +33,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/red_card"
-            android:foreground="?selectableItemBackground"
-            android:textColor="#FFFFFF"
             android:fontFamily="sans-serif-light"
+            android:foreground="?selectableItemBackground"
             android:text="Search Blood"
+            android:textColor="#FFFFFF"
             android:textSize="20sp" />
-
-<!--        <TextView-->
-<!--            android:id="@+id/search_result"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:textSize="20sp" />-->
-
-        <ListView
-            android:layout_margin="16dp"
-            android:id="@+id/result_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
 
     </LinearLayout>
 

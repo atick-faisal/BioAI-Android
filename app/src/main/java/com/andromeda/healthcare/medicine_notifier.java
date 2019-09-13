@@ -11,13 +11,17 @@ import static com.andromeda.healthcare.App.CHANNEL_ID;
 
 public class medicine_notifier extends BroadcastReceiver {
 
-    public void onReceive (Context context , Intent intent) {
+    public void onReceive(Context context, Intent intent) {
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        String medicine_name = intent.getStringExtra("medicine_name");
+        String reminder_text = "Take a " + medicine_name;
+        ////////////////////////////////////////////////////////////////////////////////////////////
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification)
                 .setContentTitle("Medicine Reminder")
-                .setContentText("Take a Paracetamol")
+                .setContentText(reminder_text)
                 .setPriority(NotificationCompat.PRIORITY_HIGH);
-
+        ////////////////////////////////////////////////////////////////////////////////////////////
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.notify(1, builder.build());
     }
